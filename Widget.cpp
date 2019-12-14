@@ -57,6 +57,8 @@ void Widget::paintEvent(QPaintEvent *event)
     p.drawPixmap(0, 0, m_screenshot);
 
     if (!m_selectionRect.isEmpty()) {
+        p.setCompositionMode(QPainter::CompositionMode_Difference);
+        p.setPen(Qt::white);
         p.drawRect(m_selectionRect);
     }
 }
