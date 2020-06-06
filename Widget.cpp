@@ -10,9 +10,8 @@
 Widget::Widget()
 {
     connect(new QShortcut(Qt::Key_Escape, this), &QShortcut::activated, this, &Widget::close);
-    QScreen *screen = windowHandle() ? windowHandle()->screen() : QGuiApplication::primaryScreen();
 
-    m_screenshot = screen->grabWindow(0);
+    m_screenshot = qApp->screenAt(QCursor::pos())->grabWindow(0);
 
     showFullScreen();
     setCursor(Qt::CrossCursor);
