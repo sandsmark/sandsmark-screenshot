@@ -15,4 +15,3 @@ add_executable(sandsmark-screenshot main.cpp Widget.cpp)
 target_link_libraries(sandsmark-screenshot PRIVATE Qt5::Widgets)
 
 install(TARGETS sandsmark-screenshot DESTINATION bin)
-install(FILES sandsmark-screenshot.desktop DESTINATION /etc/xdg/autostart/)
