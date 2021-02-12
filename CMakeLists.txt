@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-add_executable(sandsmark-screenshot main.cpp Widget.cpp)
-target_link_libraries(sandsmark-screenshot PRIVATE Qt5::Widgets)
+add_executable(screenshot main.cpp Widget.cpp)
+target_link_libraries(screenshot PRIVATE Qt5::Widgets)
 
-install(TARGETS sandsmark-screenshot DESTINATION bin)
+install(TARGETS screenshot DESTINATION bin)
