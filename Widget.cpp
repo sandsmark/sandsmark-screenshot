@@ -6,6 +6,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QClipboard>
+#include <QCursor>
 
 Widget::Widget()
 {
@@ -15,6 +16,7 @@ Widget::Widget()
 
     showFullScreen();
     setCursor(Qt::CrossCursor);
+    setMouseTracking(true);
 }
 
 void Widget::onClipboardChanged()
@@ -29,7 +31,7 @@ void Widget::mousePressEvent(QMouseEvent *event)
     m_clickedPos = event->pos();
 }
 
-void Widget::mouseReleaseEvent(QMouseEvent */*event*/)
+void Widget::mouseReleaseEvent(QMouseEvent* /*event*/)
 {
     hide();
 
@@ -41,7 +43,9 @@ void Widget::mouseReleaseEvent(QMouseEvent */*event*/)
 
 void Widget::mouseMoveEvent(QMouseEvent *event)
 {
-    m_selectionRect = QRect(m_clickedPos, event->pos()).normalized();
+    if (event->buttons()) {
+        m_selectionRect = QRect(m_clickedPos, event->pos()).normalized();
+    }
     update();
 }
 
@@ -55,9 +59,14 @@ void Widget::paintEvent(QPaintEvent *event)
     p.setClipRegion(event->region());
     p.drawPixmap(0, 0, m_screenshot);
 
-    if (!m_selectionRect.isEmpty()) {
-        p.setCompositionMode(QPainter::CompositionMode_Difference);
-        p.setPen(Qt::white);
+    p.setCompositionMode(QPainter::CompositionMode_Difference);
+    p.setPen(Qt::white);
+
+    if (m_selectionRect.isEmpty()) {
+        QPoint cursor = QCursor::pos();
+        p.drawLine(0, cursor.y(), m_screenshot.width(), cursor.y());
+        p.drawLine(cursor.x(), 0, cursor.x(), m_screenshot.height());
+    } else {
         p.drawRect(m_selectionRect);
     }
 }
