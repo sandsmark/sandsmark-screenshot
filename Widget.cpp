@@ -35,8 +35,13 @@ void Widget::mouseReleaseEvent(QMouseEvent* /*event*/)
 {
     hide();
 
+
     QClipboard *clip = qApp->clipboard();
-    clip->setPixmap(m_screenshot.copy(m_selectionRect));
+    if (!m_selectionRect.isEmpty()) {
+        clip->setPixmap(m_screenshot.copy(m_selectionRect));
+    } else {
+        clip->setPixmap(m_screenshot);
+    }
 
     connect(clip, &QClipboard::dataChanged, this, &Widget::onClipboardChanged);
 }
